@@ -9,19 +9,34 @@ if dein#load_state('~/.config/nvim/bundles')
 
   " Add or remove your plugins here:
   call dein#add('Shougo/denite.nvim')
-  call dein#add('Shougo/deoplete.nvim')
   call dein#add('Shougo/neomru.vim')
-  call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
   call dein#add('scrooloose/nerdtree')
   call dein#add('flazz/vim-colorschemes')
   call dein#add('vim-airline/vim-airline')
   call dein#add('vim-airline/vim-airline-themes')
   " call dein#add('tpope/vim-surround')
   call dein#add('tpope/vim-commentary')
-  call dein#add('omnisharp/omnisharp-vim', { 'build': 'sh -c "cd server/ && xbuild"' })
-  call dein#add('https://gitlab.com/mixedCase/deoplete-omnisharp.git', { 'depends': 'omnisharp-vim' })
-  call dein#add('editorconfig/editorconfig-vim')
   call dein#add('tpope/vim-fugitive')
+  call dein#add('editorconfig/editorconfig-vim')
+  " deoplete + omnisharp {
+    call dein#add('Shougo/deoplete.nvim')
+    call dein#add('Shougo/neopairs.vim')
+    call dein#add('Shougo/echodoc.vim')
+    call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
+    call dein#add('omnisharp/omnisharp-vim', { 'build': 'sh -c "cd server/ && xbuild"' })
+    call dein#add('https://gitlab.com/mixedCase/deoplete-omnisharp.git')
+    call dein#add('scrooloose/syntastic')
+    call dein#add('oranget/vim-csharp')
+  " }
+  " YouCompleteMe {
+    " call dein#add('valloric/youcompleteme', { 'build': './install.py --omnisharp-completer' })
+  " }
+  " Elixir {
+    call dein#add('elixir-lang/vim-elixir')
+    call dein#add('slashmili/alchemist.vim')
+    call dein#add('thinca/vim-ref')
+    " call dein#add('awetzel/elixir.nvim', { 'build': './install.sh' })
+  " }
 
   call dein#end()
   call dein#save_state()
@@ -47,6 +62,12 @@ set expandtab
 set tabstop=8
 set softtabstop=2
 set shiftwidth=2
+
+set hidden
+set autowriteall
+
+set ignorecase
+set smartcase
 " }
 " VimR {
 if has("gui_vimr")
@@ -71,6 +92,12 @@ noremap l n
 
 nnoremap <leader>fed :e ~/.config/nvim/init.vim<cr>
 " }
+" Dein {
+" plugin clean
+nnoremap <leader>pc :call map(dein#check_clean(), "delete(v:val, 'rf')")<cr>
+" plugin update
+nnoremap <leader>pu :call dein#update()<cr>
+" }
 " Denite {
 nnoremap <C-P> :DeniteProjectDir buffer file_mru file_rec<CR>
 
@@ -89,19 +116,41 @@ nnoremap <leader>ft :NERDTreeToggle<cr>
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'molokai'
 " }
-" Deoplete {
-let g:deoplete#enable_at_startup = 1
-" }
 " Tmux {
 " }
 " Fugitive {
 nnoremap <leader>gs :Gstatus<cr>
 " }
+" Deoplete {
+set completeopt+=noinsert
+" }
 " C# {
+let g:deoplete#enable_at_startup = 1
 augroup csharp
-	autocmd!
-    autocmd FileType cs setlocal tabstop=4
-    autocmd FileType cs nnoremap <F12> :OmniSharpGotoDefinition<cr>
+  autocmd!
+  autocmd FileType cs setlocal noexpandtab
+  autocmd FileType cs setlocal tabstop=4
+  autocmd FileType cs setlocal softtabstop=4
+  autocmd FileType cs setlocal shiftwidth=4
+  autocmd FileType cs setlocal makeprg=xbuild\ ~/work/q5/program/Unity/Unity.sln
+  autocmd FileType cs nnoremap <F9> :make<cr>
+  autocmd FileType cs nnoremap <F12> :OmniSharpGotoDefinition<cr>
+  autocmd FileType cs nnoremap <F24> :OmniSharpFindUsages<cr>
+  autocmd FileType cs nnoremap <leader><F12> :OmniSharpFindUsages<cr>
+  " autocmd FileType cs nnoremap <F12> :YcmCompleter GoToDefinition<cr>
+augroup END
+" }
+" Elixir {
+augroup Elixir
+  autocmd!
+  autocmd FileType elixir setlocal makeprg=mix\ test
+  autocmd FileType elixir setlocal errorformat=
+    \\ %\\+(%\\w%\\+)\ %f:%l:\ %m,
+    \%+G%m
+  autocmd FileType elixir nnoremap <F4> :cnext<cr>
+  autocmd FileType elixir nnoremap <F16> :cprevious<cr>
+  autocmd FileType elixir nnoremap <F9> :lcd\ ~/work/q5/program/server/apps/world_server<bar>make<bar>copen<cr>
+  autocmd FileType elixir nmap <F12> <c-]>
 augroup END
 " }
 " vim: set foldmarker={,} foldlevel=0 foldmethod=marker:

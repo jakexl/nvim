@@ -57,6 +57,7 @@ set number
 set relativenumber
 set termguicolors
 set cursorline
+set noshowmode
 
 set expandtab
 set tabstop=8
@@ -68,6 +69,9 @@ set autowriteall
 
 set ignorecase
 set smartcase
+
+set list
+set listchars=tab:›\ ,trail:•,extends:»,precedes:«
 " }
 " VimR {
 if has("gui_vimr")
@@ -91,6 +95,11 @@ noremap k d
 noremap l n
 
 nnoremap <leader>fed :e ~/.config/nvim/init.vim<cr>
+
+nnoremap <leader>d :wincmd h<cr>
+nnoremap <leader>h :wincmd j<cr>
+nnoremap <leader>t :wincmd k<cr>
+nnoremap <leader>n :wincmd l<cr>
 " }
 " Dein {
 " plugin clean
@@ -115,6 +124,7 @@ nnoremap <leader>ft :NERDTreeToggle<cr>
 " Airline {
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'molokai'
+let g:airline#extensions#whitespace#enabled = 0
 " }
 " Tmux {
 " }
@@ -123,8 +133,20 @@ nnoremap <leader>gs :Gstatus<cr>
 " }
 " Deoplete {
 set completeopt+=noinsert
+set completeopt-=preview
+" }
+" EchoDoc {
+let g:echodoc_enable_at_startup = 1
 " }
 " C# {
+function! cs#get_net_compiler(compiler)
+  return "xbuild"
+endfunction
+
+function! cs#find_net_solution_file()
+  return "~/work/q5/program/Unity/Unity.sln"
+endfunction
+
 let g:deoplete#enable_at_startup = 1
 augroup csharp
   autocmd!
@@ -133,7 +155,7 @@ augroup csharp
   autocmd FileType cs setlocal softtabstop=4
   autocmd FileType cs setlocal shiftwidth=4
   autocmd FileType cs setlocal makeprg=xbuild\ ~/work/q5/program/Unity/Unity.sln
-  autocmd FileType cs nnoremap <F9> :make<cr>
+  autocmd FileType cs nnoremap <F9> :make<bar>copen<cr>
   autocmd FileType cs nnoremap <F12> :OmniSharpGotoDefinition<cr>
   autocmd FileType cs nnoremap <F24> :OmniSharpFindUsages<cr>
   autocmd FileType cs nnoremap <leader><F12> :OmniSharpFindUsages<cr>

@@ -85,21 +85,21 @@ colorscheme molokai
 " Mapping {
 let mapleader=" "
 
-noremap d h
-noremap h j
-noremap t k
-noremap n l
+" noremap d h
+" noremap h j
+" noremap t k
+" noremap n l
 
-noremap j t
-noremap k d
-noremap l n
+" noremap j t
+" noremap k d
+" noremap l n
 
 nnoremap <leader>fed :e ~/.config/nvim/init.vim<cr>
 
-nnoremap <leader>d :wincmd h<cr>
-nnoremap <leader>h :wincmd j<cr>
-nnoremap <leader>t :wincmd k<cr>
-nnoremap <leader>n :wincmd l<cr>
+" nnoremap <leader>d :wincmd h<cr>
+" nnoremap <leader>h :wincmd j<cr>
+" nnoremap <leader>t :wincmd k<cr>
+" nnoremap <leader>n :wincmd l<cr>
 " }
 " Dein {
 " plugin clean

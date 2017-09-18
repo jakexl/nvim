@@ -109,6 +109,7 @@ nnoremap <leader>pu :call dein#update()<cr>
 " }
 " Denite {
 nnoremap <C-P> :DeniteProjectDir buffer file_mru file_rec<CR>
+nnoremap <leader>/ :DeniteProjectDir grep<cr>
 
 call denite#custom#map('insert', '<C-p>', '<denite:move_to_previous_line>', 'noremap')
 call denite#custom#map('insert', '<C-n>', '<denite:move_to_next_line>', 'noremap')
@@ -117,6 +118,12 @@ call denite#custom#source('file_rec', 'matchers', ['matcher_fuzzy', 'matcher_ign
 call denite#custom#source('file_rec', 'sorters', ['sorter_sublime'])
 
 call denite#custom#filter('matcher_ignore_globs', 'ignore_globs', ['deps/', 'artwork/', '_build/', '.DS_Store', '*.meta', '*.FBX', '*.fbx', '*.tga'])
+call denite#custom#var('grep', 'command', ['ag'])
+call denite#custom#var('grep', 'default_opts', ['-i', '--vimgrep'])
+call denite#custom#var('grep', 'recursive_opts', [])
+call denite#custom#var('grep', 'pattern_opt', [])
+call denite#custom#var('grep', 'separator', ['--'])
+call denite#custom#var('grep', 'final_opts', [])
 " }
 " NERD Tree {
 nnoremap <leader>ft :NERDTreeToggle<cr>
